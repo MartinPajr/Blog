@@ -1,4 +1,5 @@
 using Listkovac2Auth.Data;
+using Listkovac2Auth.DependencyResolution;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,6 +22,8 @@ builder.Services.AddAuthentication("CookieAuth")
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddApiDependencies();
 
 var app = builder.Build();
 

@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using Dapper;
 using ListkovacDTO;
 
-
 namespace ListkovacBL.DAO
 {
-    public class GeneralDAO
+    public class GeneralDAO : IGeneralDAO
     {
         private const string ConnString = @"Data Source=localhost\MSSQLSERVER01;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=False;Initial Catalog=blog";
 

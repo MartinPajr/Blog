@@ -6,23 +6,24 @@ using ListkovacDTO;
 
 namespace Listkovac2Auth.Controllers
 {
-    
     [Route("api/[controller]")]
     [ApiController]
-    public class BlogController : ControllerBase
+    public class ClanekController : ControllerBase
     {
-        // GET: api/<BlogController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly IGeneralDAO _generalDAO;
+
+        public ClanekController(IGeneralDAO generalDAO)
         {
-            return new string[] { "value1", "value2" };
+            _generalDAO = generalDAO;
         }
 
-        // GET api/<BlogController>/5
+        // GET api/<ClanekController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return "value";
+            var clanek = await _generalDAO.GetClanekById(id);
+
+            return Ok(clanek);
         }
 
         // POST api/<BlogController>
