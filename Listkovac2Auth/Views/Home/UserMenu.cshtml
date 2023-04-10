@@ -1,0 +1,37 @@
+﻿@using ListkovacDTO
+@model UserMenuDTO
+ <div class="row">
+      <!-- Uživatelský panel -->
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-header">
+            Uživatelský panel
+          </div>
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><a href="#">Změna hesla</a></li>
+              <li class="list-group-item"><a href="#">Zobrazení uživatelských statistik</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- Zobrazení blogů -->
+      <div class="col-md-9">
+        <h1>Moje blogy</h1>
+        <!-- Cyklus pro každý blog -->
+        <% logs.each do |blog| %>
+          <div class="card mb-3">
+            <div class="card-header">
+              <%= blog.title %>
+            </div>
+            <div class="card-body">
+              <%= blog.content %>
+            </div>
+            <div class="card-footer text-muted">
+              Napsáno <%= blog.created_at.strftime("%d.%m.%Y") %> | Počet komentářů: <%= blog.comments.count %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+}

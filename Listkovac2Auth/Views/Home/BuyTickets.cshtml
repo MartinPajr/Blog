@@ -1,0 +1,74 @@
+﻿@using ListkovacDTO
+
+
+@*
+<div class="container-md">
+<div class="row" style="padding-top:1em;">
+	<div class=" col-sm-3 border-end ">
+		<ul>
+			<li>
+				<a class="navigace" href="#tickets">Lístky</a>
+			</li>
+			<li>
+				<a class="navigace" href="#info">Informace</a>
+			</li>
+			<li>
+				<a class="navigace" href="#galery">Galerie</a>
+			</li>
+		</ul>
+	</div>
+
+	<div class="col-md-9">
+		<h2>@Model.Akce.Nazevakce</h2>
+
+		<table class="table">
+			<tbody>
+				<tr>
+					<td>Datum:</td>
+					<td>@Model.Akce.Datum @Model.Akce.Cas</td>
+				</tr>
+				<tr>
+					<td>Místo:</td>
+					<td>@Model.Misto.Nazevprostor</td>
+				</tr>
+				<tr>
+					<td>Adresa:</td>
+					<td>@Model.Adresa.Mesto @Model.Adresa.Ulice @Model.Adresa.Cislopopisne</td>
+				</tr>
+			</tbody>
+		</table>
+		<h2>Lístky</h2>
+		
+				<div class="row">
+
+				@foreach(TicketsAkceDTO serie in Model.Tickety)
+				{
+					<form method="get" asp-action="BuyTickets">
+
+					<div class="col-sm-8">
+						<div class="row">
+							<div class="col-sm-4" >@serie.PocetDostupnychTicketu</div>
+							<div class="col-sm-4" name="verze" >@serie.Verze</div>
+						</div>
+					</div>
+					<div class="col-sm-4">
+							<input class="form" type="number" name="pocet" value="1">
+							<button class="btn btn-primary" type="submit">Koupit</button>
+					</div>
+
+					</form>
+				}
+		</div>
+		
+		<h2 id="info">Informace</h2>
+		<span>
+			@Model.Akce.Popisakce
+		</span>
+
+		<h2 id="galery">Galerie</h2>
+		Odkaz na instagram
+	</div>
+
+</div>
+</div>
+*@

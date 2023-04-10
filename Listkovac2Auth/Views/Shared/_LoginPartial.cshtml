@@ -1,0 +1,23 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+<div class="navbar-nav ms-auto">
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="navbar-nav ms-auto">
+        <a class="nav-link" title="Manage" href="@Url.Action("UserMenu", "Home")">Vítejte @User.Identity?.Name</a>
+    </div>
+    <div class="nav-item">
+        <form class="form-inline" asp-controller="Account" asp-action="Logout">
+            <button type="submit" class="nav-link btn btn-link">Odhlásit</button>
+        </form>
+    </div>
+}
+else
+{
+    <div class="navbar-nav ms-auto">              	
+      <a class="nav-link " href="@Url.Action("Register", "Account")">Registrace</a>
+       <a class="nav-link" href="@Url.Action("Login", "Account")">Přihlášení</a>
+     </div>
+}
+</div>

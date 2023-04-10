@@ -1,0 +1,42 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.navigace {
+    display: block;
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+}
+
+ul li {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    padding-top: 0.5em;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+.display-none {
+    display: none !important;
+}
+

@@ -1,0 +1,70 @@
+﻿@using ListkovacDTO
+
+<div class="container-md">
+<div class="row" style="padding-top:1em;">
+
+      <h2>@Model.Article.Name</h2>
+      <p>@Model.Article.Text</p>
+      <hr>
+      <h3>Komentáře</h3>
+      <div class="media">
+        <img src="user1.jpg" class="mr-3" alt="User 1">
+        <div class="media-body">
+          <h5 class="mt-0">User 1</h5>
+          <p>Toto je komentář od User 1.</p>
+        </div>
+      </div>
+
+	<div class="col-md-9">
+		<h2>@Model.Akce.Nazevakce</h2>
+
+		<table class="table">
+			<tbody>
+				<tr>
+					<td>Datum:</td>
+					<td>@Model.Akce.Datum @Model.Akce.Cas</td>
+				</tr>
+				<tr>
+					<td>Místo:</td>
+					<td>@Model.Misto.Nazevprostor</td>
+				</tr>
+				<tr>
+					<td>Adresa:</td>
+					<td>@Model.Adresa.Mesto @Model.Adresa.Ulice @Model.Adresa.Cislopopisne</td>
+				</tr>
+			</tbody>
+		</table>
+		<h2>Lístky</h2>
+		
+				
+
+					@foreach(TicketsAkceDTO serie in Model.Tickety)
+					{
+						<div class="row">
+						<form method="post" asp-action="BuyTickets">
+							
+						<div>
+							
+							Do vyprodání: @serie.PocetDostupnychTicketu
+							Verze lístku: <input name="@nameof(BuyTicketsDTO.Verze)" value="@serie.Verze" readonly style="border:none">
+							<input name="@nameof(BuyTicketsDTO.AkceID)" value="@Model.Akce.AkceID" style="visibility:collapse">
+							<input class="form" type="number" name="@nameof(BuyTicketsDTO.Pocet)" value="1">
+							<button class="btn btn-primary" type="submit">Koupit</button>
+						</div>
+
+						</form>
+						</div>
+					}
+				
+		
+		<h2 id="info">Informace</h2>
+		<span>
+			@Model.Akce.Popisakce
+		</span>
+
+		<h2 id="galery">Galerie</h2>
+		<a>TBD</a>
+	</div>
+
+</iv>
+</div>

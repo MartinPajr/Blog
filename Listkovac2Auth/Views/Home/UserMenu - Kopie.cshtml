@@ -1,0 +1,218 @@
+﻿@using ListkovacDTO
+@model UserMenuDTO
+<div class="row">
+<div class="col-3 border-end ">
+		<ul> 
+            @if(Model.Role == 1)
+            {
+                <li>
+				    <p class="navigace" onclick="showForm('NewEvent')">Vytvořit událost</p>
+			    </li>
+			    <li>
+				    <p class="navigace" onclick="showForm('MyEvents')">Moje události</p>
+			    </li>
+			    <li>
+				    <p class="navigace" onclick="showForm('NewTickets')">Vytvořit lístky</p>
+			    </li>
+                 <li>
+				    <p class="navigace" onclick="showForm('AddVenue')">Přidat Místo</p>
+			    </li>  
+            }
+
+			<li style="padding-top:2em;">
+			</li>
+			<li>
+				<a class="navigace" href="../home/MyTickets" target=”_blank”>Moje lístky</a>
+			</li>
+			<li class="text-muted">
+				<a class="navigace" href="../account/PasswordChange">Změnit heslo</a>
+			</li>
+            <li class="text-muted">
+				<p class="navigace" onclick="showForm('Info')">Informace</p>
+			</li>
+		</ul>
+</div>
+
+<div class="col-9" style="padding-top:15px;">
+    <div id="Info">
+        <h1>Přihlášen jako:</h1>
+        Jméno: <h5>@Model.Zakaznik.Jmeno</h5>
+        Přijmení: <h5>@Model.Zakaznik.Prijmeni</h5>
+        Email: <h5>@Model.Zakaznik.Email</h5>
+        Telefon: <h5>@Model.Zakaznik.Telefon</h5>
+        
+    </div>
+       
+    <div id="NewEvent" class="display-none">
+         <h1>Vytvoření události</h1>
+        <form method="post" asp-action="CreateNewAkce">
+            <div class="mb-3">
+                <label for="Date" class="form-label">Datum</label>
+                <input name="@nameof(CreateAkceDTO.Date)" type="date" class="form-control" id="exampleInputPassword1">
+            </div>
+            <div class="mb-3">
+                <label for="Date" class="form-label">Čas</label>
+                <input name="@nameof(CreateAkceDTO.Cas)" type="time" class="form-control" id="exampleInputPassword1">
+            </div>
+            <div class="mb-3">
+                <label for="Name" class="form-label">Název</label>
+                <input name="@nameof(CreateAkceDTO.Name)" type="text" class="form-control" id="exampleInputPassword1">
+            </div>
+            <div class="mb-3">
+                <label for="Place" class="form-label">Místo akce</label>
+                <select class="form-control" name="@nameof(CreateAkceDTO.ProstoryID)">
+                    @foreach(VenueDTO venue in Model.Venues){
+                            <option value="@venue.Prostory_konaniID">@venue.Nazevprostor</option>
+                        }
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="Desc" class="form-label">Popis </label>
+                <input name="@nameof(CreateAkceDTO.Popisakce)" type="text" class="form-control" id="exampleInputPassword1">
+            </div>
+  
+            <button name="submit" type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+     <div id="MyEvents" class="display-none">
+          <h1>Mé události</h1>
+                   <ul class="list-group">
+                    @foreach(AkceFullDTO akce in Model.Akce)
+                    {
+                        if(akce.PoradateleID == Model.PoradatelID)
+                        {
+                            <li class="list-group-item" >
+                               <a style="text-decoration:none;color:black;" href="../Home/Akce?Id=@akce.AkceID"> @akce.Nazevakce </a>
+                            </li>
+                        }
+                    }
+                   </ul>
+    </div>
+    
+     <div id="NewTickets" class="display-none">
+        <form method="post" asp-action="CreateNewTickets">
+            <h1>Vytvoření lístků</h1>
+                <div class="mb-3">
+                
+                    <label for="Akce" class="form-label">Akce</label>
+                    <select class="form-control" name="@nameof(CreateTicketsDTO.AkceID)">
+                        @foreach(AkceFullDTO akce in Model.Akce){
+                                if (akce.Datum > DateTime.Today)
+                                {
+                                    <option value="@akce.AkceID">@akce.Nazevakce @akce.Datum.Day.@akce.Datum.Month</option>
+                                }
+                            }
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="klasického" class="form-label">Cena klasického lístku</label>
+                    <input name="@nameof(CreateTicketsDTO.Cena)" type="number" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="VIP" class="form-label">Cena VIP lístku</label>
+                    <input name="@nameof(CreateTicketsDTO.CenaVIP)" type="number" class="form-control">
+                </div>
+  
+            <button name="submit" type="submit" class="btn btn-primary">Vytvořit lístky</button>
+        </form>
+    </div>
+
+    <div id="AddVenue" class="display-none">
+         <h1>Vytvoření prostorů</h1>
+        <form method="post" asp-action="CreateNewVenue">
+
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Název prostor</label>
+                <input name="@nameof(CreateVenueDTO.nazevProstoru)" type="text" class="form-control" id="nazevProstoru">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Kapacita</label>
+                <input name="@nameof(CreateVenueDTO.kapacita)" type="number" class="form-control" id="kapacita">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Počet sekcí</label>
+                <input name="@nameof(CreateVenueDTO.pocetsekci)" type="number" class="form-control" id="pocetsekci">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-check-label">K sezení</label>
+                <input name="@nameof(CreateVenueDTO.kSezeniNormal)" type="checkbox" class="form-check-input" id="kSezeniNormal">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Počet VIP sekcí</label>
+                <input name="@nameof(CreateVenueDTO.pocetVipsekci)" type="number" class="form-control" id="pocetVipsekci">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-check-label">K sezení VIP</label>
+                <input name="@nameof(CreateVenueDTO.kSezeniVIP)" type="checkbox" class="form-check-input" id="exampleInputPassword1">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Číslo popisné</label>
+                <input name="@nameof(CreateVenueDTO.cpp)" type="text" class="form-control" id="exampleInputPassword1">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Město</label>
+                <input name="@nameof(CreateVenueDTO.mesto)" type="text" class="form-control" id="exampleInputPassword1">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">PSČ</label>
+                <input name="@nameof(CreateVenueDTO.psc)" type="text" class="form-control" id="exampleInputPassword1">
+            </div>
+  
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Stát</label>
+                <input name="@nameof(CreateVenueDTO.stat)" type="text" class="form-control" id="exampleInputPassword1">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Ulice</label>
+                <input name="@nameof(CreateVenueDTO.ulice)" type="text" class="form-control" id="exampleInputPassword1">
+            </div>
+  
+            <button name="submit" type="submit" class="btn btn-primary">Vytvořit prostory</button>
+            </form>
+        
+    </div>
+    <div id="MyTickets" class="display-none">
+
+    </div>
+
+</div>
+</div>
+@section Scripts
+{
+    <script type="text/javascript">
+		function showForm(name) {
+			if (name === "NewEvent") {
+                $('#NewEvent').removeClass('display-none');
+            } else {
+                $('#NewEvent').addClass('display-none');
+            }
+            if (name === "MyEvents") {
+                $('#MyEvents').removeClass('display-none');
+            } else {
+                $('#MyEvents').addClass('display-none');
+            }
+            if (name === "NewTickets") {
+                $('#NewTickets').removeClass('display-none');
+            } else {
+                $('#NewTickets').addClass('display-none');
+            }
+            if (name === "AddVenue") {
+                $('#AddVenue').removeClass('display-none');
+            } else {
+                $('#AddVenue').addClass('display-none');
+            }
+            if (name === "MyTickets") {
+                $('#MyTickets').removeClass('display-none');
+            } else {
+                $('#MyTickets').addClass('display-none');
+            }
+            if (name === "Info") {
+                $('#Info').removeClass('display-none');
+            } else {
+                $('#Info').addClass('display-none');
+            }
+        }
+        
+    </script>
+}
