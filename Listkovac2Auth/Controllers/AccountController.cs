@@ -1,4 +1,5 @@
 ﻿using Listkovac2Auth.Authentication;
+using Listkovac2Auth.Models;
 using ListkovacBL.DAO;
 using ListkovacDTO;
 using Microsoft.AspNetCore.Authentication;
@@ -9,7 +10,9 @@ using System.Security.Claims;
 
 namespace Listkovac2Auth.Controllers
 {
-    public class AccountController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AccountController : ControllerBase
     {
         private readonly IGeneralDAO _generalDAO;
         private readonly IJwtProvider _jwtProvider;
@@ -20,20 +23,20 @@ namespace Listkovac2Auth.Controllers
             _jwtProvider = jwtProvider;
         }
 
-        public async Task<IActionResult> Login()
-        { 
-            return View();
-        }
+        //public async Task<IActionResult> Login()
+        //{ 
+        //    return View();
+        //}
 
-        [HttpPost]
-        public async Task<IActionResult> Login(string username, string password)
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginRequest loginRequest)
         {
-            BlogUserDTO user = await _generalDAO.GetByNameUser(username);
+            BlogUserDTO user = await _generalDAO.GetByNameUser(loginRequest.name);
 
             if (user is null)
                 return NotFound();
 
-            if (user.Pass != password)
+            if (user.Pass != loginRequest.pass)
                 return NotFound();
 
             string token = _jwtProvider.Generate(user);
@@ -41,27 +44,27 @@ namespace Listkovac2Auth.Controllers
             return Ok(token);
         }
 
-        public async Task<IActionResult> Register()
-        {
-            return View();
-        }
+        //public async Task<IActionResult> Register()
+        //{
+        //    return View();
+        //}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(string username, string password, string email) 
+        [HttpPost("register")]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterRequest registerRequest) 
         //TODO@email varchar(50), @jmeno nvarchar(50), @prijmeni nvarchar(50), @telefon char(12), @cpp nvarchar(6), @Mesto nvarchar(50), @psc char(5), @stat nvarchar(50), @ulice nvarchar(50), @heslo nvarchar(max))
         {
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(registerRequest.name) || string.IsNullOrEmpty(registerRequest.pass))
                 return BadRequest();
 
             //BlogUserDTO existingUser = await _generalDAO.GetByNameUser(username);
             //if (existingUser is not null)
             // return BadRequest();
-            BlogUserDTO createdUser = await _generalDAO.CreateBlogUserAsync(username, password, email);
+            BlogUserDTO createdUser = await _generalDAO.CreateBlogUserAsync(registerRequest.name, registerRequest.pass, registerRequest.email);
 
-            return RedirectToAction("Login", "Account");
+            return Ok();
         }
-
+        [HttpGet("logout")]
         [Authorize]
         public async Task<IActionResult> LogOut()
         {
@@ -70,22 +73,22 @@ namespace Listkovac2Auth.Controllers
             return RedirectToAction("Index", "Home");
         }
         
-        public async Task<IActionResult> PasswordChange()
-        {
-            return View();   
-        }
-        [HttpPost]
-        public async Task<IActionResult> PasswordChange01(string cPassword, string nPassword)
-        {
+        //public async Task<IActionResult> PasswordChange()
+        //{
+        //    return View();   
+        //}
+        //[HttpPost]
+        //public async Task<IActionResult> PasswordChange01(string cPassword, string nPassword)
+        //{
+        //    /*
+        //    UserDTO user = await _generalDAO.GetUserbyNameAsync(User.Identity.Name);
+        //    if (user.Pass == cPassword)
+        //    {
+        //        var x = await _generalDAO.UpdatePasswordNameAsync(User.Identity.Name, nPassword);
+        //        return RedirectToAction("Index", "Home");
+        //    }*/
+        //    return View();
 
-            UserDTO user = await _generalDAO.GetUserbyNameAsync(User.Identity.Name);
-            if (user.Pass == cPassword)
-            {
-                var x = await _generalDAO.UpdatePasswordNameAsync(User.Identity.Name, nPassword);
-                return RedirectToAction("Index", "Home");
-            }
-            return View();
-
-        }
+        //}
     }
 }

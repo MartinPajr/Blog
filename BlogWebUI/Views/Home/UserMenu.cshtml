@@ -1,0 +1,147 @@
+﻿ <div class="row">
+      <!-- Uživatelský panel -->
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-header">
+            Uživatelský panel
+          </div>
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><a href="#">Změna hesla</a></li>
+              <li class="list-group-item"><a href="#">Zobrazení uživatelských statistik</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Zobrazení blogů -->
+      
+          <div id="mojeBlogy" class="col-md-9">
+        <h1>Moje blogy</h1>
+            <!-- Cyklus pro každý blog -->
+          </div>
+
+ </div>
+      <form class="container">
+          <div class="mb-3">
+            <label for="title" class="form-label">Název článku</label>
+            <input type="text" class="form-control" id="title" placeholder="Zadejte název článku">
+          </div>
+          <div class="mb-3">
+            <label for="text" class="form-label">Text článku</label>
+            <textarea class="form-control" id="text" rows="10" placeholder="Zadejte text článku"></textarea>
+          </div>
+          <button onclick="createClanek()" type="button" class="btn btn-primary">Odeslat</button>
+    </form>
+</div>
+
+
+<div class="modal fade" id="editClanekModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Úprava článku</h5>
+        <button type="button" class="close" onclick="closeEditClanek()" aria-label="Zrušit">
+          <span aria-hidden="true">&times;</span>
+          
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Titulek:</label>
+            <input type="text" class="form-control" id="editName">
+             <input type="hidden" class="form-control" id="editId">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Obsah:</label>
+            <textarea class="form-control" id="editText"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeEditClanek()">Zrušit</button>
+        <button type="button" class="btn btn-primary" onclick="saveEditClanek()">Uložit</button>
+      </div>
+    </div>
+  </div>
+</div>
+@section Scripts{
+    <script>
+        async function createClanek(){
+            var name = $('#title').val();
+            var text = $('#text').val();
+             try {
+                const response = await axios.put("https://localhost:7207/api/Clanek",
+                { name: name, text: text },
+                {headers: { "Authorization" : "Bearer " + getToken()}}
+                );
+              } catch (error) {
+                console.error(error);
+              }
+        }
+        async function getClanky(){
+             try {
+                const response = await axios.get("https://localhost:7207/api/Clanek",
+                {headers: { "Authorization" : "Bearer " + getToken()}}
+                );
+                vypisClanky(response.data);
+              } catch (error) {
+                console.error(error);
+              }
+
+        }
+        function vypisClanky(clanky){
+            for (var clanek of clanky) {
+                // Vytvořte HTML element s textem komentáře
+                var p = $('<div class="card-header">').text(clanek.name);
+                var time = $('<div id="cas" class="card-footer text-muted">').text(clanek.date);
+                var wrap = $('<div style="padding-top:5px;">').append(p).append(time);
+                var detailClankuTlac = $('<button type="button" class="btn btn-primary" onclick="redirectToClanek('+clanek.id+')">').text("Zobrazit");
+                var editClankuTlac = $('<button type="button" class="btn btn-secondary" onclick="editClanek('+clanek.id+')">').text("Upravit");
+                wrap.append(detailClankuTlac).append(editClankuTlac);
+                // Vložte HTML element do vybraného elementu na konec
+                $("#mojeBlogy").append(wrap);
+            }
+        }
+        function redirectToClanek(id){
+            window.location.href = "Article?id="+id;
+        }
+        function closeEditClanek(){
+            $('#editClanekModal').modal("hide");
+        }
+        async function editClanek(clanekId){
+            $('#editClanekModal').modal("show");
+            
+              const url = 'https://localhost:7207/api/Clanek/'+clanekId;
+              try {
+                const response = await axios.get(url);
+                const data = response.data;
+                $('#editName').val(data.name);
+                $('#editText').val(data.text);
+                $('#editId').val(clanekId);
+              } catch (error) {
+                console.error(error);
+              }
+            
+        }
+        async function saveEditClanek(){
+            var name = $('#editName').val();
+            var id = $('#editId').val();
+            var text = $('#editText').val();
+            try {
+                const response = await axios.post("https://localhost:7207/api/Clanek",
+                { name: name, text: text, id: id },
+                {headers: { "Authorization" : "Bearer " + getToken()}}
+                );
+              } catch (error) {
+                console.error(error);
+              }
+            closeEditClanek();
+            window.location.reload();
+        }
+
+        getClanky();
+        
+    </script>
+}

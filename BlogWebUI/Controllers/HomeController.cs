@@ -18,6 +18,7 @@ namespace BlogWebUI.Controllers
         {
             return View();
         }
+
         [HttpGet]
         public async Task<IActionResult> Article(int Id)
         {
@@ -28,6 +29,17 @@ namespace BlogWebUI.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+        [HttpGet]
+        public IActionResult UserMenu()
+        {
+            return View();
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

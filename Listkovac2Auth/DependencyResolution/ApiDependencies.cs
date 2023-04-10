@@ -12,7 +12,7 @@ namespace Listkovac2Auth.DependencyResolution
         {
             string issuer = "issuer";
             string audience = "audience";
-            string secretKey = "\"s3cr3tK3y\"";
+            string secretKey = "\"s3cr3tK3yfesddojkmfsdlnjk,fdgljkfnsd\"";
 
             services.AddScoped<IGeneralDAO, GeneralDAO>();
 

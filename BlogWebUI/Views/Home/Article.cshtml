@@ -11,15 +11,15 @@
 	
 </div>
 
-    <form class="form-horizontal" method="post" asp-action="CreateNewComent">
+    <form class="form-horizontal">
 
       <div class="form-group">
         <label for="comment" class="col-sm-2 control-label">Komentář</label>
-          <input name="nameof(KomentarDTO.Text)" type="text" class="form-control" id="comment">
+          <input type="text" class="form-control" id="comment">
       </div>
       <div class="form-group">
         <div class="col-sm-offset-2">
-          <button type="submit" class="btn btn-primary">Odeslat</button>
+          <button onclick="novyKomentar()" type="button" class="btn btn-primary">Odeslat</button>
         </div>
       </div>
 
@@ -71,6 +71,22 @@
                       // Vložte HTML element do vybraného elementu na konec
                       $("#komentare").append(wrap);
                     }
+            }
+            async function novyKomentar(){
+                var text = $('#comment').val();
+                var tkn = getToken();
+                console.log(tkn, text);
+                 try {
+                const response = await axios.post(
+                    "https://localhost:7207/api/Clanek/komentar",
+                    {text: text, clanekId: @Model},
+                    {headers: { "Authorization" : "Bearer " + tkn} }
+                    
+                );
+                }
+                catch (error) {
+                console.error(error);
+                }
             }
             nactiClanek();
             nactiKomenty();

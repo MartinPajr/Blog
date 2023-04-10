@@ -3,6 +3,7 @@ using Listkovac2Auth.DependencyResolution;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -18,7 +19,11 @@ builder.Services.AddAuthentication("CookieAuth")
     .AddCookie("CookieAuth", config =>
     {
         config.LoginPath = "/Account/Login";
-    });
+    }
+    
+    )
+    
+    ;
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();
