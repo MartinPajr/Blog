@@ -81,7 +81,7 @@ namespace ListkovacBL.DAO
         public async Task<BlogUserDTO> GetUserNameAsync(string username)
         {
             var parameters = new { Username = username };
-            string sql = "Select ID, Name, Pass, Email from Users where Name = @Username";
+            string sql = "Select ID, Name, Pass, Email, Token from Users where Name = @Username";
 
             using var connection = new SqlConnection(ConnString);
 

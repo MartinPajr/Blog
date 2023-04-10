@@ -1,4 +1,5 @@
-﻿using ListkovacBL.DAO;
+﻿using Listkovac2Auth.Authentication;
+using ListkovacBL.DAO;
 using ListkovacDTO;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -10,11 +11,13 @@ namespace Listkovac2Auth.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly GeneralDAO _generalDAO;
+        private readonly IGeneralDAO _generalDAO;
+        private readonly IJwtProvider _jwtProvider;
 
-        public AccountController()
+        public AccountController(IGeneralDAO generalDAO, IJwtProvider jwtProvider)
         {
-            _generalDAO = new GeneralDAO();
+            _generalDAO = generalDAO;
+            _jwtProvider = jwtProvider;
         }
 
         public async Task<IActionResult> Login()
@@ -23,7 +26,6 @@ namespace Listkovac2Auth.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(string username, string password)
         {
             BlogUserDTO user = await _generalDAO.GetByNameUser(username);
@@ -34,17 +36,9 @@ namespace Listkovac2Auth.Controllers
             if (user.Pass != password)
                 return NotFound();
 
-            var claims = new List<Claim>()
-            {
-                new Claim(ClaimTypes.Name, user.Name),
-                //new Claim(ClaimTypes.Role, user.Role.ToString())
-            };
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+            string token = _jwtProvider.Generate(user);
 
-            await HttpContext.SignInAsync(claimsPrincipal);
-
-            return RedirectToAction("UserMenu", "Home");
+            return Ok(token);
         }
 
         public async Task<IActionResult> Register()

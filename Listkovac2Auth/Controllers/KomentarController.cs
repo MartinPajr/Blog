@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ListkovacBL.DAO;
 using ListkovacDTO;
+using Microsoft.AspNetCore.Authorization;
+using System.IdentityModel.Tokens.Jwt;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,6 +13,16 @@ namespace Listkovac2Auth.Controllers
     public class KomentarController : ControllerBase
     {
         private readonly IGeneralDAO _generalDAO;
+
+        private int LoggedUserId
+        {
+            get
+            {
+                var idClaim = HttpContext.User.Claims.FirstOrDefault(x => x.Properties.Any(x => x.Value == JwtRegisteredClaimNames.Sub));
+
+                return int.Parse(idClaim!.Value);
+            }
+        }
 
         public KomentarController(IGeneralDAO generalDAO)
         {
@@ -28,8 +40,12 @@ namespace Listkovac2Auth.Controllers
 
         // POST api/<BlogController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        [Authorize]
+        public async void Post(KomentarDTO komentar)
         {
+            komentar.UserId = LoggedUserId;
+
+            await _generalDAO.CreateNewComentAsync(komentar);
         }
 
         // PUT api/<BlogController>/5
