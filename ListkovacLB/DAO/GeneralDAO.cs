@@ -14,7 +14,7 @@ namespace ListkovacBL.DAO
         public async Task<ClanekDTO> GetClanekById(int clanekId)
         {
             var parameters = new { ClanekID = clanekId };
-            string sql = "SELECT Id, Name, Text,Date, AutorId, Upvotes Date FROM Article WHERE Id = @ClanekID";
+            string sql = "SELECT Id, Name, Text,Date, AutorId, Upvotes FROM Article WHERE Id = @ClanekID";
 
             using var connection = new SqlConnection(ConnString);
 
@@ -31,27 +31,13 @@ namespace ListkovacBL.DAO
         {
             List<KomentarDTO> komentarDTOs = new List<KomentarDTO>();
             var parameters = new { Hledana = id };
-            string sql = "SELECT Id, ClanekId, Text, UserId, Time FROM Coments";
+            string sql = "SELECT Coments.Id, Coments.ClanekId, Coments.Text, Coments.UserId, Coments.Time, Users.Name AS 'Username' FROM Coments INNER JOIN Users ON Coments.UserId = Users.ID WHERE ClanekId = @Hledana";
             using (var connection = new SqlConnection(ConnString))
             {
                 await connection.OpenAsync();
-                var komenty = await connection.QueryAsync<KomentarDTO>(sql);
+                var komenty = await connection.QueryAsync<KomentarDTO>(sql, parameters);
 
-                foreach (var komentar in komenty)
-                {
-                    if(komentar.ClanekId == id)
-                    {
-                        komentarDTOs.Add(new KomentarDTO()
-                        {
-                            Id = komentar.Id,
-                            ClanekId = komentar.ClanekId,
-                            Text = komentar.Text,
-                            Time = komentar.Time,
-                            UserId = komentar.UserId,
-                        }); 
-                    }
-                }
-                return komentarDTOs;
+                return komenty.ToList();
             }
         }
         public async Task<BlogUserDTO> GetUser(int userId)

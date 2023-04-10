@@ -5,9 +5,11 @@ VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Listkovac2Auth", "Listkovac2Auth\Listkovac2Auth.csproj", "{D0783930-57FB-4518-84FB-5A9F08FC7B35}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListkovacDTO", "ListkovacDTO\ListkovacDTO.csproj", "{AE39864C-1CC1-439C-9790-497D3C55E091}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ListkovacDTO", "ListkovacDTO\ListkovacDTO.csproj", "{AE39864C-1CC1-439C-9790-497D3C55E091}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListkovacLB", "ListkovacLB\ListkovacLB.csproj", "{83C78F9D-847D-4F59-96A9-257FF86C3522}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ListkovacLB", "ListkovacLB\ListkovacLB.csproj", "{83C78F9D-847D-4F59-96A9-257FF86C3522}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogWebUI", "BlogWebUI\BlogWebUI.csproj", "{F88FCCC8-461E-451B-895B-7C0782541951}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{83C78F9D-847D-4F59-96A9-257FF86C3522}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83C78F9D-847D-4F59-96A9-257FF86C3522}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83C78F9D-847D-4F59-96A9-257FF86C3522}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F88FCCC8-461E-451B-895B-7C0782541951}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F88FCCC8-461E-451B-895B-7C0782541951}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F88FCCC8-461E-451B-895B-7C0782541951}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F88FCCC8-461E-451B-895B-7C0782541951}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

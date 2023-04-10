@@ -1,0 +1,78 @@
+﻿@model int
+<div class="container-md">
+<div class="row" style="padding-top:1em;">
+	<h2 id="headline"></h2>
+      <p id="text">Model.Clanek.Text</p>
+      <hr>
+      <h3>Komentáře</h3>
+      <div id="komentare">
+
+      </div>
+	
+</div>
+
+    <form class="form-horizontal" method="post" asp-action="CreateNewComent">
+
+      <div class="form-group">
+        <label for="comment" class="col-sm-2 control-label">Komentář</label>
+          <input name="nameof(KomentarDTO.Text)" type="text" class="form-control" id="comment">
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2">
+          <button type="submit" class="btn btn-primary">Odeslat</button>
+        </div>
+      </div>
+
+    </form>
+    
+</div>
+@section Scripts{
+    <script>
+            async function nactiClanek() {
+              const url = 'https://localhost:7207/api/Clanek/@Model';
+              try {
+                const response = await axios.get(url);
+
+                // Získejte data z odpovědi
+                const data = response.data;
+
+                // Vypište data do konzole nebo je použijte jinak
+                console.log(data);
+                vypisData(data);
+              } catch (error) {
+                // Zachyťte a zpracujte chyby
+                console.error(error);
+              }
+            }
+            async function nactiKomenty() {
+              const url = 'https://localhost:7207/api/Komentar/@Model';
+              try {
+                const response = await axios.get(url);
+                const komenty = response.data;
+                console.log(komenty);
+                vypisKomentare(komenty);
+              } catch (error) {
+                // Zachyťte a zpracujte chyby
+                console.error(error);
+              }
+            }
+            function vypisData(data){
+                $("#headline").text(data.name);
+                $("#text").text(data.text);
+            }
+            function vypisKomentare(komenty){
+                     for (var komentar of komenty) {
+                      // Vytvořte HTML element s textem komentáře
+                      var p = $('<p>').text(komentar.text);
+                      var name = $('<h6 class="mt-0">').text(komentar.username);
+                      var time = $('<p>').text(komentar.time);
+                      var wrap = $('<div style="border:dotted 1px black; margin-top: 5px">').append(name).append(p).append(time);
+
+                      // Vložte HTML element do vybraného elementu na konec
+                      $("#komentare").append(wrap);
+                    }
+            }
+            nactiClanek();
+            nactiKomenty();
+    </script>
+}

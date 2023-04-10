@@ -42,6 +42,7 @@ else
 }
 
 app.UseHttpsRedirection();
+app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 app.UseStaticFiles();
 
 app.UseRouting();

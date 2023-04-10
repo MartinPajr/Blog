@@ -31,37 +31,37 @@ namespace Listkovac2Auth.Controllers
 
             return View(list);
         }
-        [HttpGet]
-        public async Task<IActionResult> Article(int Id)
-        {
+        //[HttpGet]
+        //public async Task<IActionResult> Article(int Id)
+        //{
 
-            SingleClanekDTO clanek = new();
-            clanek.Clanek = await _generalDAO.GetClanekById(Id);
-            List<KomentarDTO> komenty = await _generalDAO.GetKomentareKClanku(Id);
-            foreach (KomentarDTO komentar in komenty)
-            {
-                komentar.User = await _generalDAO.GetUser(komentar.UserId);
-            }
-            clanek.Komentare = komenty;
+        //    SingleClanekDTO clanek = new();
+        //    clanek.Clanek = await _generalDAO.GetClanekById(Id);
+        //    List<KomentarDTO> komenty = await _generalDAO.GetKomentareKClanku(Id);
+        //    foreach (KomentarDTO komentar in komenty)
+        //    {
+        //        komentar.User = await _generalDAO.GetUser(komentar.UserId);
+        //    }
+        //    clanek.Komentare = komenty;
 
-            return View(clanek);
-        }
-        [HttpPost][HttpGet]
-        public async Task<IActionResult> CreateNewComent(KomentarDTO koment, int id)
-        {
-            KomentarDTO newKoment = new();
+        //    return View(clanek);
+        //}
+        //[HttpPost][HttpGet]
+        //public async Task<IActionResult> CreateNewComent(KomentarDTO koment, int id)
+        //{
+        //    KomentarDTO newKoment = new();
 
-            BlogUserDTO uzivatel = new();
-            uzivatel = await _generalDAO.GetUserNameAsync(User.Identity.Name);
-            newKoment.User = uzivatel;
-            newKoment.Text = koment.Text;
-            newKoment.ClanekId = id;
-            newKoment.Time = DateTime.Now;
+        //    BlogUserDTO uzivatel = new();
+        //    uzivatel = await _generalDAO.GetUserNameAsync(User.Identity.Name);
+        //    newKoment.User = uzivatel;
+        //    newKoment.Text = koment.Text;
+        //    newKoment.ClanekId = id;
+        //    newKoment.Time = DateTime.Now;
 
-            var y = await _generalDAO.CreateNewComentAsync(newKoment);
+        //    var y = await _generalDAO.CreateNewComentAsync(newKoment);
 
-            return RedirectToAction("/Home/Article?Id=@id");
-        }
+        //    return RedirectToAction("/Home/Article?Id=@id");
+        //}
 
 
 
