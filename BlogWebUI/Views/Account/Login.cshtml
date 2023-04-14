@@ -24,10 +24,14 @@
                 name: name, pass: pass
                 } );
                 Cookies.set('token', response.data);
+                redirect();
               } catch (error) {
                 console.error(error);
               }
 
+        }
+        function redirect(){
+            window.location.assign('@Url.Action("UserMenu", "Home")');
         }
 
     </script>

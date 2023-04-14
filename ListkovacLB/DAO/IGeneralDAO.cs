@@ -14,5 +14,6 @@ namespace ListkovacBL.DAO
         Task CreateNewClanekAsync(ClanekDTO clanek);
         Task<List<ClanekDTO>> GetClankyByUserId(int userId);
         Task EditClanekById(ClanekDTO clanek);
+        Task<List<ClanekDTO>> GetTop4Clanky();
     }
 }

@@ -140,6 +140,19 @@ namespace ListkovacBL.DAO
             var result = await connection.ExecuteAsync(sql, parameters);
 
         }
+        public async Task<List<ClanekDTO>> GetTop4Clanky()
+        {
+            string sql = "SELECT TOP (4) Id, Name, Text, Date, AutorId, Upvotes FROM Article ORDER BY Upvotes desc";
+
+            using var connection = new SqlConnection(ConnString);
+
+            await connection.OpenAsync();
+
+            var result = await connection.QueryAsync<ClanekDTO>(sql);
+
+            return result.ToList();
+
+        }
 
     }
 }

@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ListkovacDTO\ListkovacDTO.csproj" />
+    <ProjectReference Include="..\ListkovacDTO\BlogDTO.csproj" />
   </ItemGroup>
 
 </Project>

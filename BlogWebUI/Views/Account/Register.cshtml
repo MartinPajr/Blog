@@ -4,20 +4,43 @@
     <h2>Registrace</h2>
 </div>
 
-<form asp-antiforgery="true" method="post" asp-action="Register">
+<form>
 
   <div class="mb-3 mt-3">
     <label for="text" class="form-label">Přezdívka:</label>
-    <input type="text" class="form-control" id="username" placeholder="přezdívka" name="username">
+    <input type="text" class="form-control" id="name" placeholder="přezdívka" name="username">
   </div>
   <div class="mb-3 mt-3">
     <label for="text" class="form-label">Email:</label>
     <input type="text" class="form-control" id="email" placeholder="email" name="email">
   </div>
-  <div class="mb-3 mt-3">
+  <div class="mb-3 mt-3"></div>
   <div class="mb-3 mt-3">
     <label for="pwd" class="form-label">Heslo:</label>
     <input type="password" class="form-control" id="pwd" placeholder="heslo" name="password">
   </div>
-  <button type="submit" class="btn btn-primary">Zaregistrovat</button>
+   <button onclick="send()" type="button" class="btn btn-primary">Zaregistrovat</button>
 </form>
+
+@section Scripts{
+    <script>
+        async function send(){
+            var name = $('#name').val();
+            var pass = $('#pwd').val();
+            var email = $('#email').val();
+             try {
+                await axios.post("https://localhost:7207/api/Account/register", {
+                name: name, pass: pass, email: email
+                } );
+                redirect();
+              } catch (error) {
+                console.error(error);
+              }
+
+        }
+        function redirect(){
+            window.location.assign('@Url.Action("Login")');
+        }
+
+    </script>
+}

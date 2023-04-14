@@ -10,7 +10,6 @@ namespace ListkovacDTO
     {
         public string Username { get; set; }
         public string Pass { get; set; }
-        //public string Email { get; set; }
         public int Role { get; set; }
         public int IdPoradatele { get; set; }
         public int IdZakaznika { get; set; }

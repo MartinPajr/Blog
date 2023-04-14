@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ListkovacLB\ListkovacLB.csproj" />
+    <ProjectReference Include="..\ListkovacLB\BlogBL.csproj" />
   </ItemGroup>
 
 </Project>

@@ -2,7 +2,44 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-center" style="">
+    <div id="mojeBlogy"></div>
 </div>
+@section Scripts{
+    <script>
+        async function getClanky(){
+             try {
+                const response = await axios.get("https://localhost:7207/api/Clanek/top");
+                vypisClanky(response.data);
+              } catch (error) {
+                console.error(error);
+              }
+
+        }
+        function vypisClanky(clanky){
+            for (var clanek of clanky) {
+                // Vytvořte HTML element s textem komentáře
+                var card = $('<div class="card text-center" style="margin-top:10px">');
+
+                var head = $('<div class="card-header">');
+
+                var body = $('<div class="card-body">');
+                var title = $('<h5 class="card-title">').text(clanek.name);
+                var text = $('<p class="card-text">').text(clanek.text);
+                var href = $('<a onclick="redirect('+ clanek.id +')" class="btn btn-primary">').text("Zobrazit článek");
+
+                var foot = $('<div class="card-footer text-muted">').text(clanek.date);
+
+                body.append(title).append(text).append(href);
+                card.append(head).append(body).append(foot);
+                // Vložte HTML element do vybraného elementu na konec
+                $("#mojeBlogy").append(card);
+            }
+        }
+        function redirect(id){
+            window.location.href = '@Url.Action("Article", "Home")?id='+id;
+        }
+        getClanky();
+    </script>
+
+}

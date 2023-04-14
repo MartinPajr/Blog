@@ -6,3 +6,8 @@ function getToken() {
     var token = Cookies.get('token');
     return token;
 }
+function removeToken() {
+    var token = Cookies.get('token');
+    Cookies.remove('token', token);
+}
+

@@ -1,39 +1,44 @@
-﻿ <div class="row">
+﻿ <div class="row" style="padding-top:5px">
       <!-- Uživatelský panel -->
-      <div class="col-md-3">
+        <div class="col-md-3">
         <div class="card">
           <div class="card-header">
             Uživatelský panel
           </div>
           <div class="card-body">
             <ul class="list-group list-group-flush">
-              <li class="list-group-item"><a href="#">Změna hesla</a></li>
-              <li class="list-group-item"><a href="#">Zobrazení uživatelských statistik</a></li>
+              <li class="list-group-item"><a onclick="zmenaOkna(1)">Moje články</a></li>
+              <li class="list-group-item"><a onclick="zmenaOkna(2)">Nový článek</a></li>
             </ul>
           </div>
         </div>
       </div>
 
       <!-- Zobrazení blogů -->
-      
-          <div id="mojeBlogy" class="col-md-9">
-        <h1>Moje blogy</h1>
+      <div class="col-md-9">
+
+          <div id="mojeBlogy" >
+            <h2>Moje blogy</h2>
             <!-- Cyklus pro každý blog -->
           </div>
 
+           <div id="novyBlog" class="display-none">
+               <h2>Nový článek</h2>
+                <form class="container">
+                  <div class="mb-3">
+                    <label for="title" class="form-label">Název článku</label>
+                    <input type="text" class="form-control" id="title" placeholder="Zadejte název článku">
+                  </div>
+                  <div class="mb-3">
+                    <label for="text" class="form-label">Text článku</label>
+                    <textarea class="form-control" id="text" rows="10" placeholder="Zadejte text článku"></textarea>
+                  </div>
+                  <button onclick="createClanek()" type="button" class="btn btn-primary">Odeslat</button>
+                </form>
+            </div>
+        </div>
+
  </div>
-      <form class="container">
-          <div class="mb-3">
-            <label for="title" class="form-label">Název článku</label>
-            <input type="text" class="form-control" id="title" placeholder="Zadejte název článku">
-          </div>
-          <div class="mb-3">
-            <label for="text" class="form-label">Text článku</label>
-            <textarea class="form-control" id="text" rows="10" placeholder="Zadejte text článku"></textarea>
-          </div>
-          <button onclick="createClanek()" type="button" class="btn btn-primary">Odeslat</button>
-    </form>
-</div>
 
 
 <div class="modal fade" id="editClanekModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -139,6 +144,16 @@
               }
             closeEditClanek();
             window.location.reload();
+        }
+        function zmenaOkna(okno){
+            if(okno == 2){
+                $('#mojeBlogy').addClass('display-none');
+                $('#novyBlog').removeClass('display-none');
+            }
+            else if(okno == 1){
+                $('#mojeBlogy').removeClass('display-none');
+                $('#novyBlog').addClass('display-none');
+            }
         }
 
         getClanky();

@@ -44,6 +44,13 @@ namespace Listkovac2Auth.Controllers
 
             return Ok(clanky);
         }
+        [HttpGet("top")]
+        public async Task<IActionResult> GetTop4()
+        {
+            var clanky = await _generalDAO.GetTop4Clanky();
+
+            return Ok(clanky);
+        }
 
         [HttpPut]
         [Authorize]
